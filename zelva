@@ -1,0 +1,26 @@
+from turtle import Turtle, Screen
+import random
+import turtle
+
+turtle.colormode(255)
+
+tommy = Turtle()
+tommy.shape("turtle")
+tommy.speed(50)
+ 
+def random_color():
+    r = random.randint(0, 255)
+    g = random.randint(0, 255)
+    b = random.randint(0, 255)
+    color = (r, g, b)
+    return color
+
+
+for number in range(36):
+    tommy.pencolor(random_color())
+    tommy.circle(80)
+    tommy.left(10)
+
+
+my_screen = Screen()
+my_screen.exitonclick()
