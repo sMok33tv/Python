@@ -1,0 +1,25 @@
+pozitivni_slova = ["dobře", "krásnej"]
+negativni_slova = ["špatně", "hnusnej"]
+
+nalada = 0
+
+text = input("Zadejte prosím text který chcete zkontrolovat: ")
+slova_v_textu = text.split(" ")
+
+for slovo in slova_v_textu:
+    if slovo in pozitivni_slova:
+        nalada += 1
+    elif slovo in negativni_slova:
+        nalada -= 1
+    else:
+        nalada = 0
+        
+if nalada < 0:
+    print("Máš negativní náladu!!")
+elif nalada > 0:
+    print("Máš pozitivní náladu!!!")
+else:
+    print("A máš ty vůbec nějakou náladu ???")
+
+print(f"{nalada}")
+print(slova_v_textu)
