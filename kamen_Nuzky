@@ -1,0 +1,50 @@
+#nahrání modulu pro práci s náhodou (počítač náhodně losuje symbol)
+import random
+
+#symboly, které bude počítač losovat a uživatel volit
+symboly = ["kamen" , "papir", "nuzky"]
+
+kamen =  '''
+    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
+'''
+papir = '''
+    _______
+---'   ____)____
+          ______)
+          _______)
+         _______)
+---.__________)
+'''
+nuzky = '''
+    _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)
+'''
+list_symboli = [kamen , papir , nuzky]
+#žádání uživatele o volbu symbolu
+symbol_hrac = input(f"Hrac1: zvol symbol {symboly}:\n")
+muj_obrazek = list_symboli[symboly.index(symbol_hrac)]
+
+#náhodné losování počítače z dodaného seznamu symbolů
+symbol_pocitac = random.choice(symboly)
+obrazek_pocitac = list_symboli[symboly.index(symbol_pocitac)]
+
+#algoritmus hry kámen nůžky papír
+
+print(f"Vybral sis symbol {symbol_hrac} {muj_obrazek}")
+print(f"Počítač vybral symbol {symbol_pocitac} {obrazek_pocitac}")
+
+if symbol_hrac == symbol_pocitac:
+  print("Remíza")
+elif (symbol_hrac == "kamen" and symbol_pocitac == "nuzky") or (symbol_hrac == "nuzky" and symbol_pocitac == "papir") or (symbol_hrac == "papir" and symbol_pocitac == "kamen"):
+  print("Vyhrál jsi")
+else:
+  print("Prohrál jsi")
