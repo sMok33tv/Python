@@ -1,0 +1,38 @@
+import os
+import shutil
+
+class PruzkumnikSouboru:
+
+    def __init__(self):
+        self._aktualni_adresar = os.getcwd()
+
+    def vytvor_slozku(self, nazev):
+        if nazev not in os.listdir():
+            os.mkdir(nazev)
+
+    def vytvor_soubor(self, nazev):
+        with open(nazev, 'w') as soubor:
+            pass
+
+    def smaz_slozku(self, nazev):
+        if nazev in os.listdir():
+            os.rmdir(nazev)
+
+    def smaz_soubor(self, nazev):
+        if nazev in os.listdir():
+            os.remove(nazev)
+
+    def kopiruj_slozku(self, nazev, novy_nazev):
+        if nazev in os.listdir():
+            shutil.copytree(nazev, novy_nazev)
+    
+    def kopiruj_soubor(self, nazev, novy_nazev):
+        if nazev in os.listdir():
+            shutil.copy2(nazev, novy_nazev)
+
+    def vyjmi_slozku(self, nazev, novy_nazev):
+        if nazev in os.listdir():
+            shutil.move(nazev, novy_nazev)
+
+    def vyjmi_soubor(self, nazev, novy_nazev):
+        self.vyjmi_slozku(nazev, novy_nazev)
