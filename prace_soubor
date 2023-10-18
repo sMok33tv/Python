@@ -1,0 +1,36 @@
+import random
+import statistics
+
+with open("data.csv", "w") as soubor:
+    for ind in range(10):
+        soubor.write(f"{random.randint(1,9)},{random.randint(1,9)},{random.randint(1,9)}\n")
+
+prvni_sloupec = []
+druhy_sloupec = []
+treti_sloupec = []
+prumery = []
+with open("data.csv", "r") as soubor:
+    radky = soubor.read().split("\n")[:-1]
+    for radek in radky:
+        a, b, c = list(map(int, radek.split(",")))
+        prvni_sloupec.append(a)
+        druhy_sloupec.append(b)
+        treti_sloupec.append(c)
+        prumery.append(statistics.mean([a, b, c]))
+
+suma = sum(prvni_sloupec)
+median = statistics.median(druhy_sloupec)
+rozptyl = statistics.variance(treti_sloupec)
+
+with open("data.csv", "a") as soubor:
+    soubor.write(f"{suma},{median},{rozptyl}")
+
+with open("data.csv", "r") as soubor:
+    upraveny_radky = []
+    radky = soubor.read().split("\n")[:-1]
+    for idx, radek in enumerate(radky):
+        upraveny_radky.append(radek + f",{prumery[idx]}")
+
+with open("data.csv", "w") as soubor:
+    for radek in upraveny_radky:
+        soubor.write(radek + "\n")
