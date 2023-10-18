@@ -1,0 +1,54 @@
+!mkdir adresar1
+!echo "baf" >> adresar1/anezka.txt
+!echo "bafiky" >> adresar1/jitrocel.txt
+!echo "bafak" >> adresar1/prezvykavec.txt
+
+!mkdir adresar2
+!echo "lek" >> adresar2/zbysek.txt
+!echo "lekiky" >> adresar2/kolobezka.txt
+!echo "lekak" >> adresar2/tajne.txt
+
+!mkdir adresar3
+!echo "mnau" >> adresar3/defenestrace.txt
+!echo "mnauky" >> adresar3/ovcan.txt
+!echo "mnaukak" >> adresar3/konspirace.txt
+
+import os
+import shutil
+
+def vrat_text_souboru(cesta):
+    soubor = open(cesta, 'r')
+    text = soubor.read()
+    soubor.close()
+    return text
+
+def roztridi_z_adresaru(adresare, tridici_adresare):
+    for adresar in adresare:
+        soubory = os.listdir(adresar)
+        for soubor in soubory:
+            cesta_k_souboru = os.path.join(adresar, soubor)
+            if os.path.isfile(cesta_k_souboru):
+                for tridici_adresar in tridici_adresare:
+                    if tridici_adresar['nazev'] not in os.listdir():
+                        os.mkdir(tridici_adresar['nazev'])
+                    if ord(tridici_adresar['spodni hranice']) <= ord(soubor[0]) \
+                        <= ord(tridici_adresar['vrchni hranice']):
+                        nova_cesta = os.path.join(tridici_adresar['nazev'], soubor)
+                        shutil.move(cesta_k_souboru, nova_cesta)
+
+if __name__ == '__main__':
+    roztridi_z_adresaru(
+        adresare= ["adresar1", "adresar2", "adresar3"],
+        tridici_adresare = [
+            {
+                'nazev':'slozka1',
+                'spodni hranice': 'a',
+                'vrchni hranice': 'm',
+            }, 
+            {
+                'nazev':'slozka2',
+                'spodni hranice': 'n',
+                'vrchni hranice': 'z',
+            }
+        ]
+    )
