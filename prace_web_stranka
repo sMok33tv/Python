@@ -1,0 +1,35 @@
+import nltk
+nltk.download("punkt")
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize, sent_tokenize
+import urllib.request
+
+
+url = "https://www.gutenberg.org/cache/epub/71127/pg71127.txt"
+response = urllib.request.urlopen(url)
+data = response.read().decode('utf-8')
+#print(data)
+
+def summarize_text(text, num_sentences):
+    # Tokenizace textu na věty
+    sentences = sent_tokenize(text)
+
+    # Tokenizace vět na slova
+    words = word_tokenize(text.lower())
+
+    # Odstranění stop slov
+    stop_words = set(stopwords.words("english"))
+    words = [word for word in words if word not in stop_words]
+
+    # Výběr nejvýznamnějších vět
+    ranked_sentences = sorted(sentences, key=lambda sentence: len(word_tokenize(sentence)), reverse=True)
+    summary = ranked_sentences[:num_sentences]
+
+    return ' '.join(summary)
+
+# Příklad použití
+text = data
+num_sentences = 2
+
+summary = summarize_text(text, num_sentences)
+print(summary)
