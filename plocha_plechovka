@@ -1,0 +1,12 @@
+import math
+ # hodnoty od uživatele 
+stena_v = int(input("výška stěny v metrech: "))
+stena_s = int(input("šířka stěny v metrech: "))
+coverage = 5
+
+def nater_kalkulace(vyska, sirka, cover):
+    oblast = sirka * vyska
+    cislo_plech = math.ceil(oblast / 5)
+    print(f"Budete muset koupit tolik plechovek {cislo_plech}")
+
+nater_kalkulace(vyska= stena_v, sirka= stena_s, cover=coverage)
