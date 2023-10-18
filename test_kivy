@@ -1,0 +1,95 @@
+import random
+from kivy.app import App
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+
+class TicTacToe(GridLayout):
+    def __init__(self, **kwargs):
+        super(TicTacToe, self).__init__(**kwargs)
+        self.cols = 3
+        self.rows = 4
+        self.hraci_symbol = 'X'
+        self.protihrac_symbol = 'O'
+        self.herni_plocha = [['' for _ in range(3)] for _ in range(3)]
+
+        for radek in range(3):
+            for col in range(3):
+                button = Button(text='', font_size=50)
+                button.bind(on_release=self.on_button_click)
+                self.add_widget(button)
+
+    def on_button_click(self, button):
+        if button.text == '':
+            button.text = self.hraci_symbol
+            row, col = self.get_button_position(button)
+            self.herni_plocha[row][col] = self.hraci_symbol
+
+            if self.zkontroluj_vyhru(self.herni_plocha, self.hraci_symbol):
+                self.show_message("Gratuluji, vyhrál jsi!")
+                self.disable_buttons()
+                return
+
+            self.tah_protihrace()
+
+            if self.zkontroluj_vyhru(self.herni_plocha, self.protihrac_symbol):
+                self.show_message("Protihráč vyhrál!")
+                self.disable_buttons()
+                return
+
+    def tah_protihrace(self):
+        prazdna_policka = []
+        for radek in range(3):
+            for col in range(3):
+                if self.herni_plocha[row][col] == '':
+                    prazdna_policka.append((row, col))
+
+        if prazdna_policka:
+            radek, col = random.choice(prazdna_policka)
+            button = self.get_button(row, col)
+            button.text = self.protihrac_symbol
+            self.herni_plocha[row][col] = self.protihrac_symbol
+
+    def get_button_position(self, button):
+        index = self.children.index(button)
+        radek = index // self.cols
+        col = index % self.cols
+        return radek, col
+
+    def get_button(self, radek, col):
+        index = radek * self.cols + col
+        return self.children[index]
+
+    def zkontroluj_vyhru(self, plocha, symbol):
+        # Kontrola vodorovných řádků
+        for radek in range(3):
+            if all(policko == symbol for policko in plocha[radek]):
+                return True
+
+        # Kontrola svislých sloupců
+        for col in range(3):
+            if all(plocha[radek][col] == symbol for row in range(3)):
+                return True
+
+        # Kontrola diagonál
+        if plocha[0][0] == plocha[1][1] == plocha[2][2] == symbol:
+            return True
+        if plocha[0][2] == plocha[1][1] == plocha[2][0] == symbol:
+            return True
+
+        return False
+
+    def disable_buttons(self):
+        for child in self.children:
+            child.disabled = True
+
+    def show_message(self, message):
+        app = App.get_running_app()
+        app.root.current_screen.ids.message_label.text = message
+
+class TicTacToeApp(App):
+    def build(self):
+        return TicTacToe()
+
+if __name__ == '__main__':
+    TicTacToeApp().run()
