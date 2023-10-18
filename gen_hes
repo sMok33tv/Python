@@ -1,0 +1,35 @@
+import random
+import string
+
+abeceda = string.ascii_lowercase
+cisla = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+special_zank = ['%', '#', '!', '&', '*', '+', '?',]
+
+print("Generátor hesel")
+
+pocet_abeceda = int(input("Kolik chcete mít písmen v heslu?\n"))
+pocet_cisel = int(input("Kolik chcete mít čísel v heslu?\n"))
+pocet_specialni_znaky = int(input("Kolik specialních znaku chcete v heslu?\n"))
+
+vysledek = []
+random.shuffle(vysledek)
+
+for index in range(0, pocet_abeceda):
+    random_cisla = random.randint(0, len(abeceda)-1)
+    vysledek.append(abeceda[random_cisla])
+
+for index in range(0, pocet_cisel):
+    random_cisla = random.randint(0, len(cisla)-1)
+    vysledek.append(cisla[random_cisla])
+
+for index in range(0, pocet_specialni_znaky):
+    random_cisla = random.randint(0, len(special_zank)-1)
+    vysledek.append(special_zank[random_cisla])
+
+vysledek_hesla = ""
+
+for jedna_vec in vysledek:
+    vysledek_hesla += jedna_vec
+
+
+print (f"Tvoje vygenerovane heslo zní: {vysledek_hesla}")
