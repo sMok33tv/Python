@@ -1,0 +1,77 @@
+import random
+
+nahoda = ["🤠","🥶","☠","👻","🧐","👻","🤡","💩","👽","🤖","🥵","👀","🧐","🤕","🏐","🐗","🦚","😎","🐏","👻","🦞","🤖","🐏","😱","🕸","⚽","🏐","👻"]
+
+sirka = int(input("Zadej šířku: "))
+vyska = int(input("Zadej výšku: "))
+
+hraci_symbol = input("Zadej svůj symbol: ")
+
+mode = input("Vyber režim hry (p - proti počítači, h - proti hráči): ")
+if mode == 'p':
+    protihrac_symbol = random.choice(nahoda)
+else:
+    protihrac_symbol = input("Zadej symbol pro protihráče: ")
+
+herni_plocha = [['⬛' for _ in range(sirka)] for _ in range(vyska)]
+
+def tiskni_herni_plochu(plocha):
+    for radek in plocha:
+        print(' '.join(radek))
+
+def zkontroluj_vyhru(plocha, symbol):
+    # Kontrola vodorovných řádků
+    for radek in plocha:
+        for i in range(len(radek) - 2):
+            if all(policko == symbol for policko in radek[i:i+3]):
+                return True
+
+    # Kontrola svislých sloupců
+    for sloupec in range(len(plocha[0])):
+        for radek in range(len(plocha) - 2):
+            if all(plocha[radek+i][sloupec] == symbol for i in range(3)):
+                return True
+
+    # Kontrola diagonál zleva doprava
+    for radek in range(len(plocha) - 2):
+        for sloupec in range(len(plocha[0]) - 2):
+            if all(plocha[radek+i][sloupec+i] == symbol for i in range(3)):
+                return True
+
+    # Kontrola diagonál zprava doleva
+    for radek in range(len(plocha) - 2):
+        for sloupec in range(2, len(plocha[0])):
+            if all(plocha[radek+i][sloupec-i] == symbol for i in range(3)):
+                return True
+
+    return False
+
+while True:
+    tiskni_herni_plochu(herni_plocha)
+
+    # Tah hráče
+    radek = int(input("Zadej číslo řádku: ")) - 1
+    sloupec = int(input("Zadej číslo sloupce: ")) - 1
+
+    herni_plocha[radek][sloupec] = hraci_symbol
+
+    if zkontroluj_vyhru(herni_plocha, hraci_symbol):
+        print("Gratuluji, vyhrál jsi!")
+        break
+
+    # Tah protihráče
+    if mode == 'p':
+        while True:
+            radek = random.randint(0, vyska-1)
+            sloupec = random.randint(0, sirka-1)
+            if herni_plocha[radek][sloupec] == '⬛':
+                herni_plocha[radek][sloupec] = protihrac_symbol
+                break
+    else:
+        radek = int(input("Zadej číslo řádku: ")) - 1
+        sloupec = int(input("Zadej číslo sloupce: ")) - 1
+        herni_plocha[radek][sloupec] = protihrac_symbol
+
+    if zkontroluj_vyhru(herni_plocha, protihrac_symbol):
+        print("Protihráč vyhrál!")
+        break
