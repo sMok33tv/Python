@@ -1,0 +1,21 @@
+from flask import Flask, request, render_template
+
+app = Flask(__name__)
+
+#127.0.0.1:5000/index
+@app.route("/index") #endpointy
+@app.route("/home")
+@app.route("/")
+def index():
+    return """
+<h1>Ahoj z Flasku</h1>
+<p>blablableblebliblibloblo</p>
+<ul>
+    <li>Vejce</li>
+    <li>Strouhanka</li>
+    <li>Olej</li>
+</ul>
+"""
+
+if __name__ == "__main__":
+    app.run(port=5000, debug=True) #debug nepoužívat v produkci
