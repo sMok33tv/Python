@@ -1,0 +1,34 @@
+import matplotlib.pyplot as plt
+
+def zisk_x_seznam():
+    seznam_x = []
+    while True:
+        hodnota_x = input("Zadejte popisek nebo stiskněte Entr pro ukončení: ")
+        if hodnota_x == "":
+            break  
+
+        seznam_x.append(str(hodnota_x))
+    return seznam_x
+
+def zisk_y_seznam():
+    seznam_y = []
+    while True:
+        hodnota_y = input("Zadejte hodnotu nebo stiskněte Entr pro ukončení: ")
+        if hodnota_y == "":
+            break
+        seznam_y.append(float(hodnota_y))
+    return seznam_y
+
+
+def vykresleni_graf(seznam_y, seznam_x):
+    
+    plt.plot(seznam_y, seznam_x)
+    plt.xlabel('Osa x')
+    plt.ylabel('Osa y')
+
+    plt.show()
+
+x_seznam = zisk_x_seznam()
+y_seznam = zisk_y_seznam()
+
+vykresleni_graf(x_seznam, y_seznam)
