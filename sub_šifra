@@ -1,0 +1,9 @@
+while True:
+    text = input("Zadejte text nebo napiště q pro ukončení: ")
+    if text == "q":
+        break
+    uprav_pismeno = input("Zadejte písme no které chcete odstranit: ")
+    nove_pismeno = input(f"Zadejte pismeno ktere chcete vložit místo starého {uprav_pismeno} : ")
+
+    novy_text = text.replace(uprav_pismeno, nove_pismeno)
+    print(f"Nový text zní takhle: {novy_text}")
