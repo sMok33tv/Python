@@ -1,0 +1,38 @@
+import random
+abeceda = ['a', 'b', 'c', 'č', 'd', 'ď', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 'ř', 's', 'š', 't', 'ť', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'č', 'd', 'ď', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 'ř', 's', 'š', 't', 'ť', 'u', 'v', 'w', 'x', 'y', 'z', 'ž', ]
+specialni_znaky = [" ", ",", ".", "_", "-", "!", "?", "@", ":"]
+#print(len(abeceda))
+def sifra(start_text, posunute_cislo, rozhodnuti):
+    konecny_text = ""
+    for jedno_pismenko in start_text:
+        if jedno_pismenko not in specialni_znaky:
+            index = abeceda.index(jedno_pismenko)
+            if rozhodnuti == "k":
+                novej_index = index + posun
+                konecny_text += abeceda[novej_index]              
+            elif rozhodnuti == "d":
+                novej_index = index - posunute_cislo
+                konecny_text += abeceda[novej_index]
+        else:
+            konecny_text += jedno_pismenko
+    return konecny_text
+
+posun = random.randint(1, 63)
+pokracovat = "ano"
+
+while pokracovat == "ano": 
+    rozhodnuti = input("Napište 'k', pokud chcete zakódovat, nebo 'd', pokud chcete dekódovat zprávu: ")
+    if rozhodnuti == "d":
+        text = input("Napište svou zprávu: ").lower()
+        posunute_cislo = int(input("Zadejte číslo posunu: "))
+        vysledek = sifra(text, posunute_cislo, rozhodnuti)
+        print(f"Váš výsledek je: {vysledek}")  
+    elif rozhodnuti == "k":
+        text = input("Napište svou zprávu: ").lower()
+        vysledek = sifra(text, 0, rozhodnuti)
+        print(f"Váš výsledek je: {vysledek}\nnahodný posun pro dekódování je: {posun}")
+    else:
+        print(f"Máš se rozhodovat mezi 'k' nebo 'd', tak proč si se rozhodl napsal: {rozhodnuti}")
+    pokracovat = input("Napište 'ano', pokud chcete pokračovat, nebo 'ne', pokud chcete šifrovací program ukončit: ")
+        
+        
