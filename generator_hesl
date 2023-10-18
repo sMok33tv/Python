@@ -1,0 +1,7 @@
+import string
+import random
+
+nahodne_heslo = "".join([random.choice(string.ascii_lowercase + string.digits + string.punctuation) if i % 5 == 0
+    else random.choice(string.ascii_uppercase + string.digits + string.punctuation)
+        for i in range(66)])
+print(f"{nahodne_heslo}")
