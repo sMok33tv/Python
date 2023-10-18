@@ -1,0 +1,26 @@
+#seznam administratorů
+administratori = [("Pavel", "heslo123"), ("Ferdinand", "EmaMeleMaso")]
+
+#ukázka přidání nové dvojice (login, heslo) do seznamu administrátorů
+administratori.append( ("Honza", "tajneheslicko") )
+
+#seznam registrovaných uživatelů
+uzivatele = [("Jana", "123"),("Petr", "321"),("Eliška", "Eliška")]
+
+#získání loginu a hesla od uživatele
+login = input("Login: ")
+heslo = input("Heslo: ")
+
+#kontrola nalezení dvojice (login, heslo) v seznamech a následný výpis hlášky - DOPLŇTE
+if (login, heslo) in administratori:
+  print("Uděluji práva na úpravu ceny")
+elif (login, heslo) in uzivatele:
+  print("Uděluji práva na prohlížení produktů")
+else:
+  print("Chcete se registrovat?")
+  odpoved = input("Odpověd (ano/ne)")
+  if odpoved.lower() == "ano":
+    uzivatele.append((login, heslo))
+    print("Byli jste úspěšně zaregistrováni.")
+  else:
+    print("Děkujeme za použití programu. Rozloučení.")
