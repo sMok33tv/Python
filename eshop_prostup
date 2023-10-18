@@ -1,0 +1,17 @@
+def overit_pristup(seznam, zadany_login, zadane_heslo):
+    for login, heslo in seznam:
+        if login == zadany_login and heslo == zadane_heslo:
+            return True
+    return False
+
+dvojice = [("uzivatel1", "heslo1"), ("uzivatel2", "heslo2"), ("uzivatel3", "heslo3")]
+
+login = input("Zadej login: ")
+heslo = input("Zadej heslo: ")
+
+if overit_pristup(dvojice, login, heslo):
+    print("Přístup povolen.")
+elif overit_pristup not in(dvojice, login, heslo):
+    print("Špatně zadaný login nebo heslo")
+else:
+    print("Přístup odepřen.")
