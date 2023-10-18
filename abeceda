@@ -1,0 +1,5 @@
+import string
+            #mala pismena            # velka pismena
+abeceda = string.ascii_lowercase + string.ascii_uppercase
+abeceda_rozdelena = ', '.join(abeceda)
+print(abeceda_rozdelena)
