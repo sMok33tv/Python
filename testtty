@@ -1,0 +1,66 @@
+import os
+
+#jen implementace nekterych testu pro predstavu
+def test_kopiruj_soubor_neexistujici_soubor():
+    #arrange
+    ps = PruzkumnikSouboru()
+    cesta = "neexistuje.txt"
+    novy_nazev = "nemelbyexistovat.txt"
+    #act
+    ps.kopiruj_soubor(cesta, novy_nazev)
+    #assert
+    assert os.path.exists(novy_nazev) == False
+
+
+def test_kopiruj_soubor_existujici_soubor():
+    #arrange
+    ps = PruzkumnikSouboru()
+    cesta = "existuje.txt"
+    os.system(f"touch {cesta}")
+    novy_nazev = "melbyexistovat.txt"
+    #act
+    ps.kopiruj_soubor(cesta, novy_nazev)
+    #assert
+    assert os.path.exists(novy_nazev) == True
+
+
+def test_vyjmi_soubor_neexistujici_soubor():
+    #arrange
+    ps = PruzkumnikSouboru()
+    cesta = "neexistuje.txt"
+    novy_nazev = "nemelbyexistovat.txt"
+    #act
+    ps.vyjmi_soubor(cesta, novy_nazev)
+    #assert
+    assert os.path.exists(novy_nazev) == False
+    
+
+def test_vyjmi_soubor_existujici_soubor_vyjmuto():
+    #arrange
+    ps = PruzkumnikSouboru()
+    cesta = "existuje.txt"
+    os.system(f"touch {cesta}")
+    novy_nazev = "melbyexistovat.txt"
+    #act
+    ps.vyjmi_soubor(cesta, novy_nazev)
+    #assert
+    assert os.path.exists(cesta) == False
+    
+
+def test_vyjmi_soubor_existujici_soubor_zkopirovano():
+    #arrange
+    ps = PruzkumnikSouboru()
+    cesta = "existuje.txt"
+    os.system(f"touch {cesta}")
+    novy_nazev = "melbyexistovat.txt"
+    #act
+    ps.vyjmi_soubor(cesta, novy_nazev)
+    #assert
+    assert os.path.exists(novy_nazev) == True
+
+def testrunner():
+    test_kopiruj_soubor_neexistujici_soubor()
+    test_kopiruj_soubor_existujici_soubor()
+    test_vyjmi_soubor_neexistujici_soubor()
+    test_vyjmi_soubor_existujici_soubor_vyjmuto()
+    test_vyjmi_soubor_existujici_soubor_zkopirovano()
