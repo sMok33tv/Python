@@ -1,0 +1,96 @@
+from abc import ABC #abstraktní
+import random
+
+class Zbran(ABC):
+ 
+    def __init__(self, sila, vydrz, sance_jed, odvaha):
+        self._sila = sila
+        self._vydrz = vydrz
+        self._sance_jet = sance_jed
+        self._odvaha = odvaha
+
+    @property
+    def utok(self):
+        ...
+
+class Luk(Zbran):
+    def __init__(self, sila, vydrz, sance_jet, pocet_sipu, odvaha):
+        super().__init__(sila, vydrz, sance_jet, odvaha)
+        self._pocet_sipu = pocet_sipu
+
+    def sance_jed(self):
+        sance_jed = random.randint(1, 5)
+        if sance_jed == 3: # 20% šance
+            return "Otravil jsi nepřítele"
+        return ""
+
+    def kriticky_zasah(self):
+        if random.random() < self._odvaha:
+            return True
+        return False
+
+    def utok(self):
+        if self._pocet_sipu > 0 and self._vydrz > 0:
+            self._pocet_sipu -= 1
+            sila_utoku = self._sila + random.randint(10, 59)
+            if self.kriticky_zasah():
+                sila_utoku *= 3
+            return sila_utoku
+        return 0
+
+    def dobit(self, pocet_sipu):
+        self._pocet_sipu += pocet_sipu
+
+class Katana(Zbran):
+    def sance_jed(self):
+        sance_jed = random.randint(1, 5)
+        if sance_jed == 3 or sance_jed == 2: # 40% šance
+            return "Otravil jsi nepřítele"
+        return ""
+
+    def kriticky_zasah(self):
+        if random.random() < self._odvaha:
+            return True
+        return False
+
+    def utok(self):
+        if self._vydrz > 0:
+            self._vydrz -= 7
+            sila_utoku = self._sila + random.randint(20, 86)
+            if self.kriticky_zasah():
+                sila_utoku *= 3 
+            return sila_utoku
+
+class Dreveny_mec(Zbran):
+    def sance_jed(self):
+        sance_jed = random.randint(1, 10) # 10% šance
+        if sance_jed == 4:
+            return "Otravil jsi nepřitele" 
+        return ""
+
+    def kriticky_zasah(self):
+        if random.random() < self._odvaha: 
+            return True
+        return False
+
+    def utok(self):
+        if self._vydrz > 0:
+            self._vydrz -= 1
+            sila_utoku = self._sila + random.randint(1, 5)
+            if self.kriticky_zasah():
+                sila_utoku *= 3
+            return sila_utoku
+        return 0
+
+def hlavni():
+    luk = Luk(sila=10, vydrz=60, sance_jet=0, pocet_sipu=61, odvaha=0.2)
+    print("Luk:", luk.utok(), luk.sance_jed())
+
+    dreveny_mec = Dreveny_mec(sila=2, vydrz=150, sance_jed=0, odvaha=0.1)
+    print("Dřevěný meč:", dreveny_mec.utok(), dreveny_mec.sance_jed())
+
+    katana = Katana(sila=20, vydrz=100, sance_jed=0, odvaha=0.3)
+    print("Katana:", katana.utok(), katana.sance_jed())
+
+if __name__ == "__main__":
+    hlavni()
