@@ -1,0 +1,45 @@
+!mkdir adresar1
+!echo "1_" >> adresar1/soubor1.txt
+!echo "2_" >> adresar1/soubor1.txt
+!echo "3_" >> adresar1/soubor1.txt
+!echo "4_" >> adresar1/soubor1.txt
+!echo "5_" >> adresar1/soubor1.txt
+
+!mkdir adresar2
+!echo "1__" >> adresar2/soubor2.txt
+!echo "2__" >> adresar2/soubor2.txt
+!echo "3__" >> adresar2/soubor2.txt
+!echo "4__" >> adresar2/soubor2.txt
+!echo "5__" >> adresar2/soubor2.txt
+
+!mkdir adresar3
+!echo "1___" >> adresar3/soubor3.txt
+!echo "2___" >> adresar3/soubor3.txt
+!echo "3___" >> adresar3/soubor3.txt
+!echo "4___" >> adresar3/soubor3.txt
+!echo "5___" >> adresar3/soubor3.txt
+
+import os
+
+def vrat_text_souboru(cesta):
+    soubor = open(cesta, 'r')
+    text = soubor.read()
+    soubor.close()
+    return text
+
+def spoj_text_z_adresaru(adresare, cesta_souhrnneho_souboru):
+    souhrnny_text = ''
+    for adresar in adresare:
+        soubory = os.listdir(adresar)
+        for soubor in soubory:
+            cesta_k_souboru = os.path.join(adresar, soubor)
+            if os.path.isfile(cesta_k_souboru):
+                souhrnny_text += vrat_text_souboru(cesta_k_souboru ) + '\n'
+    with open(cesta_souhrnneho_souboru, 'w') as soubor:
+        soubor.write(souhrnny_text)
+
+if __name__ == '__main__':
+    spoj_text_z_adresaru(
+        adresare= ["adresar1", "adresar2", "adresar3"],
+        cesta_souhrnneho_souboru = 'spojeni.txt'
+    )
