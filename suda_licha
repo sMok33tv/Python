@@ -1,0 +1,14 @@
+sude_cisla = []
+licha_cisla = []
+
+zacatecni_cislo = int(input("Zadejte prosím začateční číslo: "))
+koncove_cislo = int(input("Zadejte prosim koncové číslo: "))
+
+for cislo in range (zacatecni_cislo, koncove_cislo+1):
+    if cislo % 2 == 0:
+        sude_cisla.append(cislo)
+    else:
+        licha_cisla.append(cislo)
+
+print(f"sudá čisla {sude_cisla}")
+print(f"lichá čísla {licha_cisla}")
