@@ -1,0 +1,43 @@
+def analyzuj_text(text):
+    text = text.lower()
+    slova = text.split()
+    pocet_slov = {}
+    for slovo in slova:
+        if slovo in pocet_slov:
+            pocet_slov[slovo] += 1
+        else:
+            pocet_slov[slovo] = 1
+    celkovy_pocet_slov = len(slova)
+    procentualni_vyskyt_slov = {slovo: (pocet / celkovy_pocet_slov) * 100 for slovo, pocet in pocet_slov.items()}
+    return procentualni_vyskyt_slov
+
+
+def porovnej_texty():
+    text1 = input("Zadejte první text: ")
+    text2 = input("Zadejte druhý text: ")
+    
+    procentualni_vyskyt_slov_1 = analyzuj_text(text1)
+    procentualni_vyskyt_slov_2 = analyzuj_text(text2)
+    
+    print("Shodnost textů:")
+    
+    print("Text 1:")
+    for slovo, procento in procentualni_vyskyt_slov_1.items():
+        print(f"{slovo}: {procento:.2f}%")
+    
+    print()
+    
+    print("Text 2:")
+    for slovo, procento in procentualni_vyskyt_slov_2.items():
+        print(f"{slovo}: {procento:.2f}%")
+    
+    print()
+    
+    spolecna_slova = set(procentualni_vyskyt_slov_1.keys()).intersection(set(procentualni_vyskyt_slov_2.keys()))
+    procentualni_shoda = sum(min(procentualni_vyskyt_slov_1[slovo], procentualni_vyskyt_slov_2[slovo]) for slovo in spolecna_slova)
+    
+    print(f"Shodná slova: {', '.join(spolecna_slova)}")
+    print(f"Procentuální shoda: {procentualni_shoda:.2f}%")
+
+# Zavolání procedury pro porovnání textů
+porovnej_texty()
