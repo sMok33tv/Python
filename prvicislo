@@ -1,0 +1,10 @@
+def primarnicislo(cislo):
+    pepik = "Je to prvočíslo"
+    for jedno_cislo in range(2, cislo):
+       if cislo % jedno_cislo == 0:
+           pepik = "Není to prvočíslo"
+    print(pepik)
+
+
+non = int(input("Zadejte prosím číslo: "))
+primarnicislo(non
