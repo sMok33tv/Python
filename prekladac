@@ -1,0 +1,18 @@
+from googletrans import Translator
+
+langpair_cs_es = 'cs|es'
+langpair_cs_it = 'cs|it'
+langpair_cs_en = 'cs|en'
+
+text = input("Text bude přeložen do angličtiny, španělštiny a italštiny. Zadejte text pro překlad: ")
+
+translator = Translator()
+
+translation_en = translator.translate(text, dest='en')
+print("Anglicky: " + translation_en.text)
+
+translation_es = translator.translate(text, dest='es')
+print("Španělsky: " + translation_es.text)
+
+translation_it = translator.translate(text, dest='it')
+print("Italsky: " + translation_it.text)
