@@ -1,0 +1,24 @@
+#test
+def odcitani (a, b):
+  return a - b
+def scitani (a, b):
+  return a + b
+#získání hmotnosti a výšky od uživatele - DOPLŇTE
+vaha = float(input("Zadejte svou aktualní váhu v kilogramech: "))
+vyska = float(input("Zadejte svou aktualní výšku v metrech: "))
+
+#výpočet BMI - DOPLŇTE
+bmi = vaha / (vyska * vyska)
+# podmínka pro nastavení míry obezity
+if bmi < 18.5:
+  print(f"Vaše BMI ma hodnotu {round(bmi, 1)} máte podváhu")
+elif bmi < 24.9:
+  print(f"Vaše BMI ma hodnotu {round(bmi, 1)} jste v normálu")
+elif bmi < 29.9:
+  print(f"Vaše BMI ma hodnotu {round(bmi, 1)} máte nadváhu")
+elif bmi < 34.9:
+  print(f"Vaše BMI ma hodnotu {round(bmi, 1)} jste obezní")
+else:
+  print(f"Vaše BMI ma hodnotu {round(bmi, 1)} jste extremně obezní")
+#tisk hodnoty BMI na obrazovku
+print(bmi)
