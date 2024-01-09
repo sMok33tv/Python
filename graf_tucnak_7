@@ -1,0 +1,23 @@
+import seaborn as sns
+from scipy.stats import shapiro
+from scipy.stats import pearsonr
+import matplotlib.pyplot as plt
+
+penguins = sns.load_dataset("penguins")
+penguins = penguins.dropna()
+
+sns.scatterplot(x="body_mass_g", y="flipper_length_mm", data=penguins)
+plt.title('Vztah mezi hmotností a délkou ploutví u tučňáků')
+plt.xlabel('Hmotnost (g)')
+plt.ylabel('Délka ploutví (mm)')
+plt.show()
+
+correlation, p_value = pearsonr(penguins["body_mass_g"], penguins["flipper_length_mm"])
+print(f"Pearsonův korelační koeficient: {correlation}")
+print(f"P-hodnota: {p_value}")
+
+shapiro_test_mass = shapiro(penguins["body_mass_g"])
+shapiro_test_flipper = shapiro(penguins["flipper_length_mm"])
+
+print(f"Shapiro-Wilk test pro hmotnost: {shapiro_test_mass}")
+print(f"Shapiro-Wilk test pro délku ploutví: {shapiro_test_flipper}")
