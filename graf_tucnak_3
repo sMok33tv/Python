@@ -1,0 +1,13 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+penguins = sns.load_dataset("penguins")
+penguins = penguins.dropna()
+
+plt.figure(figsize=(10, 6))
+sns.barplot(x="island", y="body_mass_g", hue="sex", data=penguins, estimator='mean')
+plt.title('Průměrná hmotnost samců a samic na různých ostrovech')
+plt.xlabel('Ostrov')
+plt.ylabel('Průměrná hmotnost (g)')
+plt.legend(title='Pohlaví')
+plt.show()
