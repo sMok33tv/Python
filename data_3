@@ -1,0 +1,38 @@
+import pandas as pd
+
+class DataReport:
+    def __init__(self, data, css=None, output_file='data_report.html'):
+        self.data = data
+        self.css = css
+        self.output_file = output_file
+
+    def generate_report(self):
+        html_table = self.data.to_html(classes='table table-striped', escape=False, index=False)
+        report = f"<html><head>{self.css}</head><body>{html_table}</body></html>"
+        with open(self.output_file, 'w') as f:
+            f.write(report)
+        print(f'Data report byl vytvořen a uložen do souboru "{self.output_file}".')
+
+data = {'Jméno': ['Alice', 'Bob', 'Charlie', 'David'],
+        'Věk': [25, 30, 22, 35],
+        'Zaměstnání': ['Inženýr', 'Lékař', 'Učitel', 'Advokát']}
+df = pd.DataFrame(data)
+
+css = """
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+"""
+report = DataReport(data=df, css=css)
+report.generate_report()
