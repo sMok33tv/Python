@@ -1,0 +1,51 @@
+import pandas as pd
+import random
+import matplotlib.pyplot as plt
+from datetime import datetime, timedelta
+
+jmena = ['Jan', 'Petr', 'Marie', 'Jana', 'Pavel', 'Anna', 'Martin', 'Eva', 'Miroslav', 'Klára']
+datumy = [datetime(2022, 2, i) for i in range(1, 29)]
+
+data = []
+
+for datum in datumy:
+    pocet_pujcek = random.randint(1, 5)
+    for _ in range(pocet_pujcek):
+        jmeno = random.choice(jmena)
+        if datum.weekday() in [5, 6]:
+            castka = random.randint(1000, 5000)
+        else:
+            castka = random.randint(1000, 10000)
+        splaceno = random.choice([True, False])
+        data.append([datum, jmeno, castka, splaceno])
+
+df = pd.DataFrame(data, columns=['Datum', 'Jmeno', 'Castka', 'Splatka'])
+
+plt.figure(figsize=(12, 4))
+
+plt.subplot(131)
+plt.hist(df[df['Castka'] <= 2500]['Jmeno'], alpha=0.7, label='0-2500')
+plt.hist(df[(df['Castka'] > 2500) & (df['Castka'] <= 5000)]['Jmeno'], alpha=0.7, label='2500-5000')
+plt.hist(df[(df['Castka'] > 5000) & (df['Castka'] <= 7500)]['Jmeno'], alpha=0.7, label='5000-7500')
+plt.hist(df[df['Castka'] > 7500]['Jmeno'], alpha=0.7, label='7500-10000')
+plt.xlabel('Jméno')
+plt.ylabel('Počet půjček')
+plt.title('Půjčky podle částky')
+plt.legend()
+
+plt.subplot(132)
+pocty_pujcek_denne = df['Datum'].value_counts().sort_index()
+pocty_pujcek_denne.plot(marker='o')
+plt.xlabel('Datum')
+plt.ylabel('Počet půjček')
+plt.title('Počty půjček v jednotlivých dnech')
+
+plt.subplot(133)
+pocet_pujcek_kumulativne = pocty_pujcek_denne.cumsum()
+pocet_pujcek_kumulativne.plot(marker='o')
+plt.xlabel('Datum')
+plt.ylabel('Kumulativní počet půjček')
+plt.title('Kumulativní počet půjček')
+
+plt.tight_layout()
+plt.show()
