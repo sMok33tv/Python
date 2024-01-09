@@ -1,0 +1,11 @@
+import pandas as pd
+import random
+
+vyšky = pd.Series([random.randint(120, 230) for _ in range(20)])
+kategorie = ['trpasličí', 'malý', 'průměrný', 'vysoký', 'obří']
+biny = [119, 150, 165, 180, 195, 230]
+skupiny = pd.cut(vyšky, bins=biny, labels=kategorie)
+
+data = pd.concat([vyšky, skupiny], axis=1)
+data.columns = ['výška', 'kategorie']
+print(data)
