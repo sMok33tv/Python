@@ -1,0 +1,5 @@
+import pandas as pd
+
+soubor_csv = 'moe_data.csv'
+df.to_csv(soubor_csv, index=False)
+print(f'Data byly exportován do souboru {soubor_csv}.')
