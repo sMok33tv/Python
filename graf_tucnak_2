@@ -1,0 +1,13 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+penguins = sns.load_dataset("penguins")
+penguins = penguins.dropna()
+
+plt.figure(figsize=(8, 6))
+sns.scatterplot(x="bill_length_mm", y="flipper_length_mm", data=penguins)
+plt.title('Vztah mezi délkou zobáku a délkou ploutví u tučňáků')
+plt.xlabel('Délka zobáku (mm)')
+plt.ylabel('Délka ploutví (mm)')
+plt.grid(True)
+plt.show()
