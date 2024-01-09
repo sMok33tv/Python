@@ -1,0 +1,12 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+penguins = sns.load_dataset("penguins")
+penguins = penguins.dropna()
+
+plt.figure(figsize=(8, 6))
+sns.violinplot(x="species", y="bill_length_mm", data=penguins)
+plt.title('Rozložení délek zobáků pro všechny druhy tučňáků')
+plt.xlabel('Druh tučňáka')
+plt.ylabel('Délka zobáku (mm)')
+plt.show()
