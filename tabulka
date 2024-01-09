@@ -1,0 +1,6 @@
+import pandas as pd
+
+url = "https://pbpython.com/pandas-html-table.html"
+tabulky = pd.read_html(url)
+df = tabulky[0]
+print(df)
