@@ -1,0 +1,12 @@
+import pandas as pd
+
+data = {
+    'Datum': ['2022-02-01', '2022-02-01', '2022-02-02', '2022-02-03'],
+    'Jmeno': ['Alice', 'Bob', 'Alice', 'Charlie'],
+    'Castka': [3000, 5000, 7000, 4000],
+    'Splatka': [True, False, True, True]
+}
+
+df = pd.DataFrame(data)
+df['URL'] = df.index.map(lambda x: f"https://pujcovnapenez/id={x+1}")
+print(df)
