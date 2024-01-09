@@ -1,0 +1,12 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+penguins = sns.load_dataset("penguins")
+penguins = penguins.dropna()
+
+plt.figure(figsize=(8, 6))
+sns.boxplot(x="bill_length_mm", data=penguins)
+plt.title('Statistiky délky zobáků u tučňáků')
+plt.xlabel('Délka zobáku (mm)')
+plt.grid(True)
+plt.show()
