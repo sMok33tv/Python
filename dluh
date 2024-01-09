@@ -1,0 +1,11 @@
+import pandas as pd
+
+df = #datový rámec
+
+vybrane_jmeno = 'Alice'
+zacinajici_datum = '2022-02-05'
+koncici_datum = '2022-02-10'
+duzne_castky = df[(df['Jméno'] == vybrane_jmeno) & (df['Datum'] >= zacinajici_datum) & (df['Datum'] <= koncici_datum)]
+
+print("Dlužné částky pro", vybrane_jmeno, "v období od", zacinajici_datum, "do", koncici_datum)
+print(duzne_castky)
