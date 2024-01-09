@@ -1,0 +1,22 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+penguins = sns.load_dataset("penguins")
+penguins = penguins.dropna()
+
+male_penguins = penguins[penguins["sex"] == "Male"]
+female_penguins = penguins[penguins["sex"] == "Female"]
+
+sns.set(style="whitegrid")
+plt.figure(figsize=(10, 6))
+
+plt.subplot(1, 2, 1)
+sns.kdeplot(female_penguins["body_mass_g"], shade=True, color="red", label="Female")
+plt.title('Hustota hmotnosti u samičích tučňáků')
+
+plt.subplot(1, 2, 2)
+sns.kdeplot(male_penguins["body_mass_g"], shade=True, color="blue", label="Male", bw_adjust=0.2)
+plt.title('Hustota hmotnosti u samčích tučňáků')
+
+plt.tight_layout()
+plt.show()
