@@ -1,0 +1,53 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+from PIL import Image
+import requests
+
+image_url = "https://docs.opencv.org/4.x/water_coins.jpg"
+Image.open(requests.get(image_url, stream=True).raw).save("mince.jpg")
+image = cv2.imread("mince.jpg", cv2.IMREAD_GRAYSCALE)
+
+binary = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 2)
+kernel = np.ones((3, 3), np.uint8)
+morphology = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel, iterations=2)
+morphology = cv2.morphologyEx(morphology, cv2.MORPH_OPEN, kernel, iterations=2)
+
+sure_bg = cv2.dilate(morphology, kernel, iterations=3)
+dist_transform = cv2.distanceTransform(morphology, cv2.DIST_L2, 5)
+_, sure_fg = cv2.threshold(dist_transform, 0.6 * dist_transform.max(), 255, 0)
+sure_fg = np.uint8(sure_fg)
+unknown = cv2.subtract(sure_bg, sure_fg)
+
+_, markers = cv2.connectedComponents(sure_fg)
+markers = markers + 1
+markers[unknown == 255] = 0
+markers = cv2.watershed(cv2.cvtColor(image, cv2.COLOR_BGR2RGB), markers)
+
+contours, _ = cv2.findContours(sure_fg, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+num_coins = len(contours)
+
+plt.figure(figsize=(12, 6))
+plt.subplot(2, 3, 1)
+plt.imshow(image, cmap="gray")
+plt.title("Původní obrázek")
+
+plt.subplot(2, 3, 2)
+plt.imshow(binary, cmap="gray")
+plt.title("Adaptivní binarizace")
+
+plt.subplot(2, 3, 3)
+plt.imshow(morphology, cmap="gray")
+plt.title("Morfologické operace")
+
+plt.subplot(2, 3, 4)
+plt.imshow(sure_fg, cmap="gray")
+plt.title("Značení mincí")
+
+plt.subplot(2, 3, 5)
+plt.imshow(markers, cmap="nipy_spectral", alpha=0.7)
+plt.title(f"Počet mincí: {num_coins}")
+
+plt.show()
+
+num_coins
