@@ -1,0 +1,21 @@
+import os
+from PIL import Image
+
+rotation_dir = "rotace"
+if not os.path.exists(rotation_dir):
+    os.makedirs(rotation_dir)
+
+image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/1024px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg"
+os.system(f"curl {image_url} --output mona.jpg")
+image_path = "mona.jpg"
+original_image = Image.open(image_path)
+rotation_angle = 10
+current_rotation = 0
+
+while current_rotation < 360:
+    rotated_image_path = os.path.join(rotation_dir, f"rotated_{current_rotation}.jpg")
+    rotated_image = original_image.rotate(current_rotation)
+    rotated_image.save(rotated_image_path)
+    current_rotation += rotation_angle
+
+print("Rotace dokončena. Obrázky uloženy ve složce 'rotace'.")
