@@ -1,0 +1,23 @@
+import cv2
+import numpy as np
+import requests
+import matplotlib.pyplot as plt
+from PIL import Image
+
+image_url = "https://cdn.futura-sciences.com/buildsv6/images/largeoriginal/9/d/b/9dbcf317d5_50175715_tetris-record.jpg"
+Image.open(requests.get(image_url, stream=True).raw).save("tetris.jpg")
+
+image = cv2.imread("tetris.jpg", cv2.IMREAD_GRAYSCALE)
+hist, bins = np.histogram(image.flatten(), 256, [0, 256])
+ret, threshold_image = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+plt.figure(figsize=(10, 5))
+
+plt.subplot(1, 2, 1)
+plt.imshow(image, cmap="gray")
+plt.title("Šedivý")
+
+plt.subplot(1, 2, 2)
+plt.imshow(threshold_image, cmap="gray")
+plt.title("Binarizovaný")
+
+plt.show()
