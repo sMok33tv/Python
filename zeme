@@ -1,0 +1,37 @@
+import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.express as px
+
+np.random.seed(42)
+countries = ['USA', 'China', 'India', 'Brazil', 'Russia', 'Germany', 'United Kingdom', 'France']
+development_status = ['Developed', 'Developing']
+data = pd.DataFrame({
+    'Country': np.random.choice(countries, 100),
+    'GDP': np.random.uniform(100, 10000, 100),
+    'Population': np.random.uniform(1, 200, 100),
+    'Development': np.random.choice(development_status, 100)
+})
+
+selected_types = st.multiselect('Vyberte typ země', development_status, development_status)
+filtered_data = data[data['Development'].isin(selected_types)]
+
+fig1 = px.scatter(filtered_data, x='GDP', y='Population', color='Country', size='GDP')
+st.plotly_chart(fig1)
+fig2 = px.bar(filtered_data, x='Country', y='GDP')
+st.plotly_chart(fig2)
+
+new_country = st.text_input('Přidat další zemi:')
+add_country_button = st.button('Přidat zemi')
+
+if add_country_button:
+    new_data = pd.DataFrame({
+        'Country': [new_country],
+        'GDP': [np.random.uniform(100, 10000)],
+        'Population': [np.random.uniform(1, 200)],
+        'Development': np.random.choice(development_status, 1)
+    })
+    data = pd.concat([data, new_data], ignore_index=True)
+
+st.write('Aktuální data:')
+st.write(data)
