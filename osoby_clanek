@@ -1,0 +1,19 @@
+import wikipedia
+import re
+
+article_title = "Programování"
+
+try:
+    article_content = wikipedia.page(article_title).content
+    pattern = re.compile(r'\b[A-Z][a-z]+\b')
+    people = re.findall(pattern, article_content)
+
+    print("Osoby v článku:")
+    for person in people:
+        print(person)
+
+except wikipedia.exceptions.DisambiguationError as e:
+    print(f"Disambiguace: {e.options}")
+except Exception as ex:
+    print(f"Chyba při načítání článku: {ex}")
+#dodělat
