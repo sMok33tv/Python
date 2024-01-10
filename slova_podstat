@@ -1,0 +1,15 @@
+import spacy
+
+nlp = spacy.load("en_core_web_sm")
+text = "When will be your product available?"
+
+doc = nlp(text)
+
+for token in doc:
+    print(token.text, token.pos_, token.dep_)
+
+for ent in doc.ents:
+    if ent.label_ == "DATE":
+        print("Identified date:", ent.text)
+    elif ent.text.lower() in ["product", "your product"]:
+        print("User is asking about the product.")
