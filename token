@@ -1,0 +1,9 @@
+import spacy
+from spacy import displacy
+
+nlp = spacy.load("en_core_web_sm")
+otazka = "When will be your product available?"
+doc = nlp(otazka)
+
+for token in doc:
+    print(f"Token: {token.text}, Závislost: {token.dep_}, Hlava: {token.head.text}, Pozice hlavy: {token.head.pos_}, Děti: {[child.text for child in token.children]}")
