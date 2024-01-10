@@ -1,0 +1,21 @@
+import cv2
+import numpy as np
+import requests
+from PIL import Image
+import matplotlib.pyplot as plt
+
+image_url = "https://cdn.futura-sciences.com/buildsv6/images/largeoriginal/9/d/b/9dbcf317d5_50175715_tetris-record.jpg"
+Image.open(requests.get(image_url, stream=True).raw).save("tetris.jpg")
+image = cv2.imread("tetris.jpg", cv2.IMREAD_GRAYSCALE)
+edges = cv2.Canny(image, threshold1=30, threshold2=100)
+plt.figure(figsize=(10, 5))
+
+plt.subplot(1, 2, 1)
+plt.imshow(image, cmap="gray")
+plt.title("Původní obrázek")
+
+plt.subplot(1, 2, 2)
+plt.imshow(edges, cmap="gray")
+plt.title("Obrázek s vyznačenými hranami")
+
+plt.show()
