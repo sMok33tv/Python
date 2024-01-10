@@ -1,0 +1,71 @@
+import dash
+from dash import html, dcc
+from dash.dependencies import Input, Output
+import plotly.express as px
+import pandas as pd
+
+data = {
+    'Země': ['USA', 'Čína', 'Indie', 'UK', 'Brazílie'],
+    'HDP': [20.54, 13.61, 2.87, 2.83, 1.43],
+    'Populace(2021)': [331900000, 1442000000, 1408000000, 67330000, 214000000],
+    'Nezaměstnanost': [5.7, 4.0, 6.9, 3.9, 12.5],
+    'Prosperita': [80, 60, 40, 70, 30],
+    'Inflace': [4, 5, 6.6, 10, 10]
+}
+df = pd.DataFrame(data)
+
+app = dash.Dash(__name__)
+
+app.layout = html.Div([
+    html.H1("Dashboard zemí"),
+    
+    dcc.Checklist(
+        id='country-checklist',
+        options=[{'label': zeme, 'value': zeme} for zeme in df['Země']],
+        value=df['Země'].tolist(), 
+        labelStyle={'display': 'block'}
+    ),
+
+    dcc.Graph(id='gdp-population-plot'),
+    dcc.Graph(id='unemployment-plot'),
+    dcc.Graph(id='population-plot', style={'background': 'lightblue'}),
+    dcc.Graph(id='inflation-plot'),
+
+    html.Div([
+        dcc.Input(id='new-country', type='text', placeholder='Název země'),
+        html.Button('Přidat zemi', id='add-country-button', n_clicks=0)
+    ]),
+])
+
+@app.callback(
+    [Output('gdp-population-plot', 'figure'), Output('unemployment-plot', 'figure'), Output('population-plot', 'figure'), Output('inflation-plot', 'figure')],
+    [Input('country-checklist', 'value')]
+)
+def update_graphs(selected_countries):
+    filtered_df = df[df['Země'].isin(selected_countries)]
+    fig1 = px.scatter(filtered_df, x='HDP', y='Populace(2021)', color='Země', title='HDP vs Populace', labels={'HDP': 'HDP (v bilionech $)', 'Populace(2021)': 'Populace (v milionech)'})
+    fig1.update_traces(marker=dict(size=12))
+
+    fig2 = px.bar(filtered_df, x='Země', y='Nezaměstnanost', title='Nezaměstnanost', labels={'Země': 'Země', 'Nezaměstnanost': 'Nezaměstnanost (%)'})
+    fig2.update_traces(marker=dict(color='red'))
+
+    fig3 = px.bar(filtered_df, x='Země', y='Populace(2021)', title='Populace', labels={'Země': 'Země', 'Populace(2021)': 'Populace (v milionech)'})
+    fig3.update_traces(marker=dict(color='green'))
+
+    fig4 = px.bar(filtered_df, x='Země', y='Inflace', title='Inflace', labels={'Země': 'Země', 'Inflace': 'Inflace (%)'})
+    fig4.update_traces(marker=dict(color='blue'))
+
+    return fig1, fig2, fig3, fig4
+
+@app.callback(
+    Output('country-checklist', 'options'),
+    [Input('add-country-button', 'n_clicks')],
+    [dash.dependencies.State('new-country', 'value')]
+)
+def add_country(n_clicks, new_country):
+    if n_clicks and new_country:
+        df.loc[len(df)] = [new_country, 0, 0, 0, 0, 0]
+    return [{'label': zeme, 'value': zeme} for zeme in df['Země']]
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
